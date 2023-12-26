@@ -1,0 +1,347 @@
+@import url("https://fonts.googleapis.com/css2?family=Anton&family=Manrope&display=swap");
+
+* {
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "lato", "helvetica", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 18px;
+}
+
+/*** search section ***/
+
+.dropdown-arrow {
+  width: 1rem;
+  height: 1.5rem;
+  position: absolute;
+  right: 5rem;
+  transition: transform 0.2s ease-in-out, -webkit-transform 0.2s ease-in-out;
+}
+
+#main {
+  background-color: #e7e7e7;
+}
+
+/* Filter section */
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#sort {
+  margin: 0 4em;
+}
+
+#sort > p {
+  font-family: "Anton", sans-serif;
+}
+
+#filters {
+  display: flex;
+  margin: 0;
+  flex-wrap: wrap;
+}
+
+.filter__ustensiles {
+  margin: 20px 30px;
+  border-radius: 10px;
+  max-width: 190px;
+}
+
+.filter__ingredients {
+  margin: 20px 30px;
+  border-radius: 10px;
+  max-width: 190px;
+}
+
+.filter__appareils {
+  margin: 20px 30px;
+  border-radius: 10px;
+  max-width: 190px;
+}
+
+.dropdown__button {
+  background-color: #fff;
+  border-style: none;
+  padding: 15px 20px;
+  border-radius: 10px;
+  font-family: "Manrope", sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.dropdown__button:hover {
+  background-color: #ffd15b;
+}
+
+#filters > div > div > input {
+  border-style: solid;
+  border-width: 1px;
+  border-color: #c6c6c6;
+  padding: 10px 0;
+  margin: 10px auto;
+  width: 83%;
+}
+
+#filters > div > div {
+  display: flex;
+  margin: 0;
+  position: relative;
+}
+
+.search-icon {
+  position: absolute;
+  right: 20px;
+  top: 18px;
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+}
+
+.cross-icon {
+  position: absolute;
+  right: 48px;
+  top: 23px;
+  cursor: pointer;
+  width: 8px;
+  height: 8px;
+}
+
+#filters > div > div > input:focus {
+  outline: none;
+  border-color: #c6c6c6;
+}
+
+.selected {
+  background-color: #ffd15b;
+}
+
+.filtered-choices {
+  flex-direction: column;
+  cursor: pointer;
+  margin: 0;
+  height: auto;
+  max-height: 150px;
+  overflow-y: scroll;
+}
+
+#filters > div > div::-webkit-scrollbar {
+  width: 0;
+}
+
+#filters > div > div > span {
+  margin: 0;
+  padding: 3px 3px;
+}
+
+#filters > div > div > span:hover {
+  background-color: #ffd15b;
+}
+
+.dropdown__logo {
+  margin-left: 50px;
+}
+
+.number__recipes {
+  justify-content: flex-end;
+}
+
+/* Tag section */
+
+#tags {
+  display: flex;
+  margin-left: 1em;
+  flex-wrap: wrap;
+}
+
+.tag-group {
+  margin: 1em 1em;
+  display: flex;
+  align-items: center;
+  background-color: #ffd15b;
+  border-radius: 10px;
+}
+
+.tag {
+  cursor: pointer;
+  padding: 15px 20px;
+}
+
+.cross-tag-icon {
+  right: 20px;
+  top: 4px;
+  cursor: pointer;
+  width: 15px;
+  height: 15px;
+  margin-right: 15px;
+}
+
+/* Recipes section - ARTICLES */
+
+#recipes__cards {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin: 0 2em;
+}
+
+#recipes__cards article {
+  border-radius: 20px;
+  margin: 2em 1em;
+  width: 380px;
+  height: 731px;
+  background-color: #fff;
+}
+
+#recipes__cards header {
+  display: flex;
+  justify-content: space-around;
+  position: relative;
+  width: 380px;
+}
+
+.nom {
+  padding: 20px 0;
+}
+
+.image {
+  width: 380px;
+  height: 253px;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  object-fit: cover;
+}
+
+.recette {
+  color: #7a7a7a;
+  font-family: "Manrope", sans-serif;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  letter-spacing: 1.08px;
+  text-transform: uppercase;
+  padding-bottom: 20px;
+}
+
+.description {
+  font-family: "Manrope", sans-serif;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.ingredients {
+  color: #7a7a7a;
+  font-family: "Manrope", sans-serif;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  letter-spacing: 1.08px;
+  text-transform: uppercase;
+  padding: 20px 0;
+}
+
+.ingredient__ingredient {
+  font-family: "Manrope", sans-serif;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.ingredient__quantity {
+  color: #7a7a7a;
+  font-family: "Manrope", sans-serif;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+#recipes__cards .informations {
+  width: 380px;
+  font-size: 12px;
+  padding: 0 25px;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+#recipes__cards header h2 {
+  font-size: 18px;
+  font-weight: normal;
+  margin-left: 0;
+}
+
+#recipes__cards header h3 {
+  position: absolute;
+  top: 2em;
+  right: 2em;
+  padding: 5px 10px;
+  font-size: 18px;
+  background-color: #ffd15b;
+  border-radius: 15px;
+  margin: 0;
+}
+
+#recipes__cards .ingredients__detailled--bloc {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+#recipes__cards .ingredients__detailled--bloc > div {
+  width: 50%;
+  flex-grow: 4;
+  margin: 5px 0;
+}
+
+/* Error Message */
+
+.is-hidden {
+  display: none;
+}
+
+.no-result-message {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #ed6454;
+}
+
+@media screen and (max-width: 768px) {
+  #recipes__cards {
+    justify-content: center;
+  }
+  #recipes__cards article {
+    width: 300px;
+    height: 731px;
+  }
+  #recipes__cards header {
+    width: 300px;
+  }
+  .image {
+    width: 300px;
+    height: 200px;
+  }
+  #recipes__cards .informations {
+    width: 300px;
+  }
+  #recipes__cards header h2 {
+    font-size: 16px;
+  }
+  #recipes__cards header h3 {
+    font-size: 16px;
+  }
+  #recipes__cards .ingredients__detailled--bloc > div {
+    width: 100%;
+  }
+}

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Les petits Plats</title>
+    <link rel="stylesheet" href="./styles/header.css" />
+    <link rel="stylesheet" href="./styles/main.css" />
+  </head>
+  <body>
+    <header id="header">
+      <!-- HEADER COMPONENT JAVASCRIPTS header.js -->
+    </header>
+    <main id="main">
+      <div class="container">
+        <section id="filters">
+          <!-- FILTERS COMPONENT JAVASCRIPTS filters.js -->
+        </section>
+        <section id="sort"><p>1500 recettes</p></section>
+      </div>
+      <section id="tags">
+        <!-- TAGS COMPONENT JAVASCRIPTS index.js -->
+      </section>
+      <section id="recipes__cards">
+        <!-- CARDS COMPONENT JAVASCRIPTS card.js -->
+      </section>
+      <span class="no-result-message"></span>
+    </main>
+
+    <script type="module" src="./scripts/index/index.js"></script>
+    <script defer src="./scripts/utils/mouseOver.js"></script>
+  </body>
+</html>
