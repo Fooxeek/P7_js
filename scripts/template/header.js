@@ -2,7 +2,7 @@ export function Header() {
   const header = document.getElementById("header");
 
   const headerLogo = document.createElement("img");
-  headerLogo.src = "../../assets/img/Les petits plats.png";
+  headerLogo.src = "../../assets/img/les_petits_plats.png";
   headerLogo.alt = "logo Les petits plats";
   headerLogo.classList.add("header__logo");
 
