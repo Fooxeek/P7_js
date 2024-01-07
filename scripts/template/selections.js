@@ -1,3 +1,5 @@
+import { updateFilteredData } from "../index/index.js";
+
 export const selections = {
   ingredients: new Set(),
   appareils: new Set(),
@@ -64,6 +66,7 @@ function createTag(text, type, tagSection) {
     updateGlobalTags(tagSection);
 
     updateFilterChoiceSelectedState(type, text, false);
+    updateFilteredData();
   });
 
   // Retournez la div group au lieu du span tag

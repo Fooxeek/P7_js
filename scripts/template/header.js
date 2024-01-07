@@ -1,3 +1,7 @@
+import { recipes } from "../../data/recipes.js";
+import { getRecipeCard } from "./card.js";
+import { updateRecipeCount } from "../utils/updateRecipeCount.js";
+
 export function Header() {
   const header = document.getElementById("header");
 
@@ -35,4 +39,43 @@ export function Header() {
 
   header.appendChild(headerLogo);
   header.appendChild(headerGroup);
+
+  function handleSearch() {
+    const query = searchInput.value.trim().toLowerCase();
+
+    // Appliquer le filtre et mettre à jour l'affichage des recettes
+    filterRecipes(query);
+  }
+
+  // Écoutez les événements de saisie pour la recherche
+  searchInput.addEventListener("input", handleSearch);
+}
+
+function filterRecipes(query) {
+  const filteredRecipes = recipes.filter((recipe) => {
+    return (
+      recipe.ingredients.some((ingredient) =>
+        ingredient.ingredient.toLowerCase().includes(query)
+      ) ||
+      recipe.appliance.toLowerCase().includes(query) ||
+      recipe.ustensils.some((ustensile) =>
+        ustensile.toLowerCase().includes(query)
+      )
+    );
+  });
+
+  // Mettez à jour l'affichage des recettes ici
+  displayFilteredRecipes(filteredRecipes);
+}
+
+function displayFilteredRecipes(filteredRecipes) {
+  const recipeSection = document.getElementById("recipes__cards");
+  recipeSection.innerHTML = ""; // Vide la section des recettes actuelles
+
+  filteredRecipes.forEach((recipe) => {
+    const recipeCard = getRecipeCard(recipe); // Utilisez votre fonction existante pour créer une carte de recette
+    recipeSection.appendChild(recipeCard); // Ajoutez la carte de recette à la section
+  });
+
+  updateRecipeCount(filteredRecipes.length);
 }

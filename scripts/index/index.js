@@ -4,27 +4,35 @@ import { getRecipeCard } from "../template/card.js";
 import { getIngredients } from "../template/ingredients.js";
 import { getAppareils } from "../template/appareils.js";
 import { getUstensiles } from "../template/ustensiles.js";
+import { filterRecipesBySelections } from "../utils/filter.js";
+import { selections } from "../template/selections.js";
 
 function displayData(recipes) {
   const recipeSection = document.getElementById("recipes__cards");
   recipeSection.innerHTML = "";
-  for (const recipe of recipes) {
-    const recipeCard = getRecipeCard(recipe);
-    recipeSection.appendChild(recipeCard);
-  }
+  recipes.forEach(recipe => {
+    recipeSection.appendChild(getRecipeCard(recipe));
+  });
+}
 
-  Header();
+function initFilters() {
   const filterSection = document.getElementById("filters");
-  const ingredients = getIngredients();
-  filterSection.appendChild(ingredients);
-  const appareils = getAppareils();
-  filterSection.appendChild(appareils);
-  const ustensiles = getUstensiles();
-  filterSection.appendChild(ustensiles);
+  filterSection.appendChild(getIngredients(updateFilteredData));
+  filterSection.appendChild(getAppareils(updateFilteredData));
+  filterSection.appendChild(getUstensiles(updateFilteredData));
+}
+
+export function updateFilteredData() {
+  const filteredRecipes = filterRecipesBySelections(selections);
+  displayData(filteredRecipes);
 }
 
 function init() {
   displayData(recipes);
+  Header();
+  initFilters();
 }
 
 init();
+
+

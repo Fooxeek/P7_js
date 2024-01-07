@@ -1,5 +1,6 @@
 import { recipes } from "../../data/recipes.js";
 import { selections, updateGlobalTags } from "./selections.js";
+import { updateFilteredData } from "../index/index.js";
 
 export function getAppareils() {
   const button = document.createElement("button");
@@ -32,15 +33,12 @@ export function getAppareils() {
   filteredChoicesDiv.classList.add("filtered-choices");
   filteredChoicesDiv.style.display = "none";
 
-  function normalizeApplianceName(name) {
-    return name.trim().toLowerCase();
-  }
-
   function getAppareilsList() {
     const appareils = new Set();
     recipes.forEach((recipe) => {
       if (recipe.appliance) {
-        appareils.add(normalizeApplianceName(recipe.appliance));
+        // Ajoute directement le nom de l'appareil sans le normaliser
+        appareils.add(recipe.appliance);
       }
     });
     return Array.from(appareils);
@@ -63,6 +61,7 @@ export function getAppareils() {
     updateFilteredChoices();
     const tagSection = document.getElementById("tags");
     updateGlobalTags(tagSection);
+    updateFilteredData();
   }
 
   function updateFilteredChoices(filteredChoices = choices) {
@@ -117,9 +116,9 @@ export function getAppareils() {
   });
 
   crossIcon.addEventListener("click", function () {
-    searchInput.value = ""; // Clear the input field
-    crossIcon.style.display = "none"; // Hide the cross icon
-    updateFilteredChoices(choices); // Update choices to initial state
+    searchInput.value = "";
+    crossIcon.style.display = "none";
+    updateFilteredChoices(choices);
   });
 
   searchInputContainer.appendChild(searchInput);

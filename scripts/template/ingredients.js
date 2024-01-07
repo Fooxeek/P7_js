@@ -1,5 +1,6 @@
 import { recipes } from "../../data/recipes.js";
 import { selections, updateGlobalTags } from "./selections.js";
+import { updateFilteredData } from "../index/index.js";
 
 export function getIngredients() {
   const button = document.createElement("button");
@@ -32,18 +33,11 @@ export function getIngredients() {
   filteredChoicesDiv.classList.add("filtered-choices");
   filteredChoicesDiv.style.display = "none";
 
-  function normalizeIngredientName(name) {
-    return name.trim().toLowerCase();
-  }
-
   function getIngredientsList() {
     const ingredients = new Set();
     recipes.forEach((recipe) => {
       recipe.ingredients.forEach((ingredient) => {
-        const normalizedIngredient = normalizeIngredientName(
-          ingredient.ingredient
-        );
-        ingredients.add(normalizedIngredient);
+        ingredients.add(ingredient.ingredient);
       });
     });
     return Array.from(ingredients);
@@ -64,8 +58,9 @@ export function getIngredients() {
       selections.ingredients.add(ingredient);
     }
     updateFilteredChoices();
-    const tagSection = document.getElementById("tags"); // Supposer que vous avez un élément avec cet ID
+    const tagSection = document.getElementById("tags");
     updateGlobalTags(tagSection);
+    updateFilteredData();
   }
 
   function updateFilteredChoices(filteredChoices = choices) {
@@ -120,9 +115,9 @@ export function getIngredients() {
   });
 
   crossIcon.addEventListener("click", function () {
-    searchInput.value = ""; // Clear the input field
-    crossIcon.style.display = "none"; // Hide the cross icon
-    updateFilteredChoices(choices); // Update choices to initial state
+    searchInput.value = "";
+    crossIcon.style.display = "none";
+    updateFilteredChoices(choices);
   });
 
   searchInputContainer.appendChild(searchInput);
