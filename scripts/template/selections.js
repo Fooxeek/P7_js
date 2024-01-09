@@ -8,20 +8,20 @@ export function updateGlobalTags(tagSection) {
   tagSection.innerHTML = ""; // Clear existing tags
 
   // Correct the type parameter for each call to createTag
-  selections.ingredients.forEach((ingredient) => {
+  for (const ingredient of selections.ingredients) {
     const ingredientTag = createTag(ingredient, "ingredients", tagSection);
     tagSection.appendChild(ingredientTag);
-  });
+  }
 
-  selections.appareils.forEach((appareil) => {
+  for (const appareil of selections.appareils) {
     const appareilTag = createTag(appareil, "appareils", tagSection);
     tagSection.appendChild(appareilTag);
-  });
+  }
 
-  selections.ustensiles.forEach((ustensile) => {
+  for (const ustensile of selections.ustensiles) {
     const ustensileTag = createTag(ustensile, "ustensiles", tagSection);
     tagSection.appendChild(ustensileTag);
-  });
+  }
 }
 
 function updateFilterChoiceSelectedState(type, ingredient, isSelected) {

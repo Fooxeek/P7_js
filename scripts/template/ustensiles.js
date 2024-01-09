@@ -32,15 +32,11 @@ export function getUstensiles() {
   filteredChoicesDiv.classList.add("filtered-choices");
   filteredChoicesDiv.style.display = "none";
 
-  function normalizeUstensilName(name) {
-    return name.trim().toLowerCase();
-  }
-
   function getUstensilsList() {
     const ustensils = new Set();
     recipes.forEach((recipe) => {
       recipe.ustensils.forEach((ustensil) => {
-        ustensils.add(normalizeUstensilName(ustensil));
+        ustensils.add(ustensil);
       });
     });
     return Array.from(ustensils);
@@ -49,9 +45,14 @@ export function getUstensiles() {
   const choices = getUstensilsList();
 
   function filterChoices(searchInputValue) {
-    return choices.filter((choice) =>
-      choice.toLowerCase().includes(searchInputValue.toLowerCase())
-    );
+    const searchLower = searchInputValue.toLowerCase();
+    const filtered = [];
+    for (const choice of choices) {
+      if (choice.includes(searchLower)) {
+        filtered.push(choice);
+      }
+    }
+    return filtered;
   }
 
   function toggleUstensilSelection(ustensil) {
@@ -117,9 +118,9 @@ export function getUstensiles() {
   });
 
   crossIcon.addEventListener("click", function () {
-    searchInput.value = ""; // Clear the input field
-    crossIcon.style.display = "none"; // Hide the cross icon
-    updateFilteredChoices(choices); // Update choices to initial state
+    searchInput.value = ""; 
+    crossIcon.style.display = "none";
+    updateFilteredChoices(choices);
   });
 
   searchInputContainer.appendChild(searchInput);

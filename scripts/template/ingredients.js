@@ -6,7 +6,7 @@ export function getIngredients() {
   button.classList.add("dropdown__button");
   button.textContent = "Ingrédients";
   button.innerHTML +=
-    '<svg xmlns="http://www.w3.org/2000/svg" class="dropdown__logo" width="15" height="8" viewBox="0 0 15 8" fill="none"><path d="M1 1L7.5 7L14 1" stroke="#1B1B1B" stroke-linecap="round"/></svg>';
+    '<svg xmlns="http://w ww.w3.org/2000/svg" class="dropdown__logo" width="15" height="8" viewBox="0 0 15 8" fill="none"><path d="M1 1L7.5 7L14 1" stroke="#1B1B1B" stroke-linecap="round"/></svg>';
 
   const filterInfo = document.createElement("div");
   filterInfo.classList.add("filter__ingredients");
@@ -32,18 +32,11 @@ export function getIngredients() {
   filteredChoicesDiv.classList.add("filtered-choices");
   filteredChoicesDiv.style.display = "none";
 
-  function normalizeIngredientName(name) {
-    return name.trim().toLowerCase();
-  }
-
   function getIngredientsList() {
     const ingredients = new Set();
     recipes.forEach((recipe) => {
       recipe.ingredients.forEach((ingredient) => {
-        const normalizedIngredient = normalizeIngredientName(
-          ingredient.ingredient
-        );
-        ingredients.add(normalizedIngredient);
+        ingredients.add(ingredient.ingredient);
       });
     });
     return Array.from(ingredients);
@@ -52,9 +45,14 @@ export function getIngredients() {
   const choices = getIngredientsList();
 
   function filterChoices(searchInputValue) {
-    return choices.filter((choice) =>
-      choice.toLowerCase().includes(searchInputValue.toLowerCase())
-    );
+    const searchLower = searchInputValue.toLowerCase();
+    const filtered = [];
+    for (const choice of choices) {
+      if (choice.includes(searchLower)) {
+        filtered.push(choice);
+      }
+    }
+    return filtered;
   }
 
   function toggleIngredientSelection(ingredient) {

@@ -32,15 +32,11 @@ export function getAppareils() {
   filteredChoicesDiv.classList.add("filtered-choices");
   filteredChoicesDiv.style.display = "none";
 
-  function normalizeApplianceName(name) {
-    return name.trim().toLowerCase();
-  }
-
   function getAppareilsList() {
     const appareils = new Set();
     recipes.forEach((recipe) => {
       if (recipe.appliance) {
-        appareils.add(normalizeApplianceName(recipe.appliance));
+        appareils.add(recipe.appliance);
       }
     });
     return Array.from(appareils);
@@ -49,9 +45,14 @@ export function getAppareils() {
   const choices = getAppareilsList();
 
   function filterChoices(searchInputValue) {
-    return choices.filter((choice) =>
-      choice.toLowerCase().includes(searchInputValue.toLowerCase())
-    );
+    const searchLower = searchInputValue.toLowerCase();
+    const filtered = [];
+    for (const choice of choices) {
+      if (choice.includes(searchLower)) {
+        filtered.push(choice);
+      }
+    }
+    return filtered;
   }
 
   function toggleApplianceSelection(appliance) {
