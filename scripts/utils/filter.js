@@ -19,7 +19,10 @@ export function filterRecipesBySelections(selections) {
 
 function filterByAppareils(recipe, selectedAppareils) {
   if (selectedAppareils.size === 0) return true;
-  return selectedAppareils.has(recipe.appliance);
+
+  return Array.from(selectedAppareils).every((appareil) =>
+    recipe.appliance.includes(appareil)
+  );
 }
 
 function filterByIngredients(recipe, selectedIngredients) {
