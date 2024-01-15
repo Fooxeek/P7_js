@@ -1,5 +1,3 @@
-/** Fonction pour afficher le contenu de 'ingrédients' pour nos cards. **/
-/* getIngredients is used on our factory 'getRecipeCard' */
 function getIngredients(ingredients) {
   const column = document.createElement("div");
   column.classList.add("ingredients__detailled--bloc");
