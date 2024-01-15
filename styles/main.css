@@ -188,9 +188,9 @@ body {
 
 #recipes__cards {
   display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  margin: 0 2em;
+  flex-flow: row wrap;
+  justify-content: space-around;
+  margin: 0 3rem;
 }
 
 #recipes__cards article {
