@@ -117,9 +117,9 @@ export function getUstensiles() {
   });
 
   crossIcon.addEventListener("click", function () {
-    searchInput.value = ""; // Clear the input field
-    crossIcon.style.display = "none"; // Hide the cross icon
-    updateFilteredChoices(choices); // Update choices to initial state
+    searchInput.value = "";
+    crossIcon.style.display = "none"; 
+    updateFilteredChoices(choices); 
   });
 
   searchInputContainer.appendChild(searchInput);

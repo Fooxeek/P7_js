@@ -5,9 +5,8 @@ export const selections = {
 };
 
 export function updateGlobalTags(tagSection) {
-  tagSection.innerHTML = ""; // Clear existing tags
+  tagSection.innerHTML = ""; 
 
-  // Correct the type parameter for each call to createTag
   selections.ingredients.forEach((ingredient) => {
     const ingredientTag = createTag(ingredient, "ingredients", tagSection);
     tagSection.appendChild(ingredientTag);
