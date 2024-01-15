@@ -1,5 +1,6 @@
 import { recipes } from "../../data/recipes.js";
 import { selections, updateGlobalTags } from "./selections.js";
+import { updateFilteredData } from "../index/index.js";
 
 export function getIngredients() {
   const button = document.createElement("button");
@@ -64,6 +65,7 @@ export function getIngredients() {
     updateFilteredChoices();
     const tagSection = document.getElementById("tags"); // Supposer que vous avez un élément avec cet ID
     updateGlobalTags(tagSection);
+    updateFilteredData();
   }
 
   function updateFilteredChoices(filteredChoices = choices) {

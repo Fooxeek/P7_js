@@ -1,5 +1,6 @@
 import { recipes } from "../../data/recipes.js";
 import { selections, updateGlobalTags } from "./selections.js";
+import { updateFilteredData } from "../index/index.js";
 
 export function getUstensiles() {
   const button = document.createElement("button");
@@ -64,6 +65,7 @@ export function getUstensiles() {
     updateFilteredChoices();
     const tagSection = document.getElementById("tags");
     updateGlobalTags(tagSection);
+    updateFilteredData();
   }
 
   function updateFilteredChoices(filteredChoices = choices) {
@@ -118,7 +120,7 @@ export function getUstensiles() {
   });
 
   crossIcon.addEventListener("click", function () {
-    searchInput.value = ""; 
+    searchInput.value = "";
     crossIcon.style.display = "none";
     updateFilteredChoices(choices);
   });
