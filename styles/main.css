@@ -189,7 +189,6 @@ body {
 #recipes__cards {
   display: flex;
   flex-flow: row wrap;
-  justify-content: space-around;
   margin: 0 3rem;
 }
 
