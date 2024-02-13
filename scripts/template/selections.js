@@ -1,3 +1,5 @@
+import { updateFilteredData } from "../index/index.js";
+
 export const selections = {
   ingredients: new Set(),
   appareils: new Set(),
@@ -5,7 +7,7 @@ export const selections = {
 };
 
 export function updateGlobalTags(tagSection) {
-  tagSection.innerHTML = ""; 
+  tagSection.innerHTML = "";
 
   for (const ingredient of selections.ingredients) {
     const ingredientTag = createTag(ingredient, "ingredients", tagSection);
@@ -37,11 +39,6 @@ function updateFilterChoiceSelectedState(type, ingredient, isSelected) {
 }
 
 function createTag(text, type, tagSection) {
-  if (!selections[type]) {
-    console.error(`Invalid type: ${type}`);
-    return;
-  }
-
   const group = document.createElement("div");
   group.classList.add("tag-group");
 
@@ -52,19 +49,15 @@ function createTag(text, type, tagSection) {
   const crossIcon = document.createElement("img");
   crossIcon.src = "../../assets/img/cross.svg";
   crossIcon.classList.add("cross-tag-icon");
-
-  // Ajoutez le span tag à la div group
   group.appendChild(tag);
   group.appendChild(crossIcon);
 
   group.addEventListener("click", function () {
-    // Retirer le tag des sélections et mettre à jour l'affichage
     selections[type].delete(text);
     updateGlobalTags(tagSection);
-
     updateFilterChoiceSelectedState(type, text, false);
+    updateFilteredData();
   });
 
-  // Retournez la div group au lieu du span tag
   return group;
 }

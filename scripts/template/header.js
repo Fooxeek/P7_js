@@ -1,6 +1,4 @@
-import { recipes } from "../../data/recipes.js";
-import { getRecipeCard } from "./card.js";
-import { updateRecipeCount } from "../utils/updateRecipeCount.js";
+import { filterRecipes } from "../utils/filter.js";
 
 export function Header() {
   const header = document.getElementById("header");
@@ -49,48 +47,4 @@ export function Header() {
 
   // Écoutez les événements de saisie pour la recherche
   searchInput.addEventListener("input", handleSearch);
-}
-
-function filterRecipes(query) {
-  let filteredRecipes = [];
-  for (let i = 0; i < recipes.length; i++) {
-    let recipe = recipes[i];
-    let ingredientMatch = false;
-    for (let j = 0; j < recipe.ingredients.length; j++) {
-      if (recipe.ingredients[j].ingredient.toLowerCase().includes(query)) {
-        ingredientMatch = true;
-        break; // Sortie anticipée si un ingrédient correspond
-      }
-    }
-
-    let ustensileMatch = false;
-    for (let k = 0; k < recipe.ustensils.length; k++) {
-      if (recipe.ustensils[k].toLowerCase().includes(query)) {
-        ustensileMatch = true;
-        break; // Sortie anticipée si un ustensile correspond
-      }
-    }
-    if (
-      ingredientMatch ||
-      recipe.appliance.toLowerCase().includes(query) ||
-      ustensileMatch
-    ) {
-      filteredRecipes.push(recipe);
-    }
-  }
-
-  // Mettez à jour l'affichage des recettes ici
-  displayFilteredRecipes(filteredRecipes);
-}
-
-function displayFilteredRecipes(filteredRecipes) {
-  const recipeSection = document.getElementById("recipes__cards");
-  recipeSection.innerHTML = ""; // Vide la section des recettes actuelles
-
-  for (let i = 0; i < filteredRecipes.length; i++) {
-    const recipeCard = getRecipeCard(filteredRecipes[i]); // Utilisez votre fonction existante pour créer une carte de recette
-    recipeSection.appendChild(recipeCard); // Ajoutez la carte de recette à la section
-  }
-
-  updateRecipeCount(filteredRecipes.length);
 }

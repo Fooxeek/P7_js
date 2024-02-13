@@ -1,96 +1,117 @@
-import { recipes } from "../../data/recipes.js";
+import { currentFilteredRecipes } from "../utils/filter.js";
 import { selections, updateGlobalTags } from "./selections.js";
 import { updateFilteredData } from "../index/index.js";
 
+// Variables globales pour les éléments de l'interface
+let searchInput, filteredChoicesDiv, searchIcon, crossIcon;
+
+// Initialisation de la liste des ingrédients
+let choices = [];
+
+export function updateUstensilsList() {
+  choices = getUstensilsList();
+  updateFilteredChoices();
+}
+
+function getUstensilsList() {
+  const ustensils = new Set();
+  currentFilteredRecipes.forEach((recipe) => {
+    recipe.ustensils.forEach((ustensil) => {
+      ustensils.add(ustensil);
+    });
+  });
+  return Array.from(ustensils);
+}
+
+function updateFilteredChoices(filteredChoices = choices) {
+  filteredChoicesDiv.innerHTML = filteredChoices
+    .map((choice) => {
+      const isSelected = selections.ustensiles.has(choice);
+      return `<span class="filter-choice ${
+        isSelected ? "selected" : ""
+      }" data-ustensiles="${choice}">${choice}</span>`;
+    })
+    .join("\n");
+
+  attachClickEventToChoices();
+}
+
+function filterChoices(searchInputValue) {
+  const searchLower = searchInputValue.toLowerCase();
+  const filtered = [];
+  for (const choice of choices) {
+    if (choice.includes(searchLower)) {
+      filtered.push(choice);
+    }
+  }
+  return filtered;
+}
+
+function toggleUstensilSelection(ustensil) {
+  if (selections.ustensiles.has(ustensil)) {
+    selections.ustensiles.delete(ustensil);
+  } else {
+    selections.ustensiles.add(ustensil);
+  }
+  updateFilteredChoices();
+  const tagSection = document.getElementById("tags");
+  updateGlobalTags(tagSection);
+  updateFilteredData();
+}
+
+function attachClickEventToChoices() {
+  filteredChoicesDiv
+    .querySelectorAll(".filter-choice")
+    .forEach((choiceElement) => {
+      choiceElement.addEventListener("click", function () {
+        const ustensil = this.getAttribute("data-ustensiles");
+        toggleUstensilSelection(ustensil);
+      });
+    });
+}
+
 export function getUstensiles() {
+  const container = document.createElement("div");
+  container.classList.add("filter__ustensiles");
+
   const button = document.createElement("button");
   button.classList.add("dropdown__button");
   button.textContent = "Ustensiles";
-  button.innerHTML +=
-    '<svg xmlns="http://www.w3.org/2000/svg" class="dropdown__logo" width="15" height="8" viewBox="0 0 15 8" fill="none"><path d="M1 1L7.5 7L14 1" stroke="#1B1B1B" stroke-linecap="round"/></svg>';
+  const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  svg.setAttribute("class", "dropdown__logo");
+  svg.setAttribute("width", "15");
+  svg.setAttribute("height", "8");
+  svg.setAttribute("viewBox", "0 0 15 8");
+  svg.setAttribute("fill", "none");
+  const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+  path.setAttribute("d", "M1 1L7.5 7L14 1");
+  path.setAttribute("stroke", "#1B1B1B");
+  path.setAttribute("stroke-linecap", "round");
+  svg.appendChild(path);
 
-  const filterInfo = document.createElement("div");
-  filterInfo.classList.add("filter__ustensiles");
+  // Ajoute le SVG au bouton
+  button.appendChild(svg);
 
   const searchInputContainer = document.createElement("div");
   searchInputContainer.classList.add("search-input-container");
 
-  const searchIcon = document.createElement("img");
+  searchIcon = document.createElement("img");
   searchIcon.src = "../../assets/img/search_grey.svg";
   searchIcon.classList.add("search-icon");
   searchIcon.style.display = "none";
 
-  const crossIcon = document.createElement("img");
+  crossIcon = document.createElement("img");
   crossIcon.src = "../../assets/img/cross.svg";
   crossIcon.classList.add("cross-icon");
   crossIcon.style.display = "none";
 
-  const searchInput = document.createElement("input");
+  searchInput = document.createElement("input");
   searchInput.type = "text";
   searchInput.style.display = "none";
 
-  const filteredChoicesDiv = document.createElement("div");
+  filteredChoicesDiv = document.createElement("div");
   filteredChoicesDiv.classList.add("filtered-choices");
   filteredChoicesDiv.style.display = "none";
-
-  function getUstensilsList() {
-    const ustensils = new Set();
-    recipes.forEach((recipe) => {
-      recipe.ustensils.forEach((ustensil) => {
-        ustensils.add(ustensil);
-      });
-    });
-    return Array.from(ustensils);
-  }
-
-  const choices = getUstensilsList();
-
-  function filterChoices(searchInputValue) {
-    const searchLower = searchInputValue.toLowerCase();
-    const filtered = [];
-    for (const choice of choices) {
-      if (choice.includes(searchLower)) {
-        filtered.push(choice);
-      }
-    }
-    return filtered;
-  }
-
-  function toggleUstensilSelection(ustensil) {
-    if (selections.ustensiles.has(ustensil)) {
-      selections.ustensiles.delete(ustensil);
-    } else {
-      selections.ustensiles.add(ustensil);
-    }
-    updateFilteredChoices();
-    const tagSection = document.getElementById("tags");
-    updateGlobalTags(tagSection);
-    updateFilteredData();
-  }
-
-  function updateFilteredChoices(filteredChoices = choices) {
-    filteredChoicesDiv.innerHTML = filteredChoices
-      .map((choice) => {
-        const isSelected = selections.ustensiles.has(choice);
-        return `<span class="filter-choice ${
-          isSelected ? "selected" : ""
-        }" data-ustensiles="${choice}">${choice}</span>`;
-      })
-      .join("\n");
-
-    attachClickEventToChoices();
-  }
-
-  function attachClickEventToChoices() {
-    filteredChoicesDiv
-      .querySelectorAll(".filter-choice")
-      .forEach((choiceElement) => {
-        choiceElement.addEventListener("click", function () {
-          const ustensil = this.getAttribute("data-ustensiles");
-          toggleUstensilSelection(ustensil);
-        });
-      });
-  }
 
   button.addEventListener("click", function () {
     const colorFilter = document.querySelector(".filter__ustensiles");
@@ -129,9 +150,11 @@ export function getUstensiles() {
   searchInputContainer.appendChild(searchIcon);
   searchInputContainer.appendChild(crossIcon);
 
-  filterInfo.appendChild(button);
-  filterInfo.appendChild(searchInputContainer);
-  filterInfo.appendChild(filteredChoicesDiv);
+  container.appendChild(button);
+  container.appendChild(searchInputContainer);
+  container.appendChild(filteredChoicesDiv);
 
-  return filterInfo;
+  updateUstensilsList();
+
+  return container;
 }
