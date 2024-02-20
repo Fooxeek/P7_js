@@ -8,46 +8,61 @@ import { updateUstensilsList } from "../template/ustensiles.js";
 export let currentFilteredRecipes = [...recipes]; // Commencez avec toutes les recettes
 
 export function filterRecipes(query) {
-  if (query.length < 3) return displayFilteredRecipes(currentFilteredRecipes);
+  // Si la longueur de la requête est inférieure à 3 caractères, réinitialiser les recettes filtrées à toutes les recettes
+  if (query.length < 3) {
+    currentFilteredRecipes = [...recipes];
+  } else {
+    currentFilteredRecipes = [];
 
-  let filteredRecipes = [];
+    for (let i = 0; i < recipes.length; i++) {
+      const recipe = recipes[i];
+      const title = recipe.name.toLowerCase();
+      const description = recipe.description.toLowerCase();
 
-  for (let i = 0; i < recipes.length; i++) {
-    let recipe = recipes[i];
-    let titleMatch = recipe.name.toLowerCase().includes(query.toLowerCase());
-    let descriptionMatch = recipe.description
-      .toLowerCase()
-      .includes(query.toLowerCase());
-    let ingredientMatch = false;
-
-    for (let j = 0; j < recipe.ingredients.length; j++) {
-      let ingredient = recipe.ingredients[j];
-      if (ingredient.ingredient.toLowerCase().includes(query.toLowerCase())) {
-        ingredientMatch = true;
-        break;
+      // Vérifier si le titre ou la description de la recette contient la requête
+      if (title.includes(query) || description.includes(query)) {
+        currentFilteredRecipes.push(recipe);
+      } else {
+        // Vérifier si un ingrédient de la recette contient la requête
+        for (let j = 0; j < recipe.ingredients.length; j++) {
+          const ingredient = recipe.ingredients[j].ingredient.toLowerCase();
+          if (ingredient.includes(query)) {
+            currentFilteredRecipes.push(recipe);
+            break;
+          }
+        }
       }
-    }
-
-    if (titleMatch || descriptionMatch || ingredientMatch) {
-      filteredRecipes.push(recipe);
     }
   }
 
-  if (filteredRecipes.length === 0) {
+  // Mettre à jour l'affichage des recettes
+  if (currentFilteredRecipes.length === 0) {
+    // Afficher le message "Aucune recette ne correspond à XXX"
     const recipesCard = document.getElementById("recipes__cards");
     const noResultMessage = document.createElement("div");
     noResultMessage.textContent = `Aucune recette ne correspond à "${query}"`;
     noResultMessage.classList.add("no-result");
     recipesCard.innerHTML = ""; // Supprimez le contenu précédent
     recipesCard.appendChild(noResultMessage);
+
+    // Réinitialiser les filtres d'ingrédients, d'ustensiles et d'appareils
+    updateIngredientsList([]);
+    updateAppareilsList([]);
+    updateUstensilsList([]);
+
+    // Mettre à jour le compteur de recettes à 0
+    updateRecipeCount(0);
   } else {
-    displayFilteredRecipes(filteredRecipes);
+    displayFilteredRecipes(currentFilteredRecipes);
     updateIngredientsList();
     updateAppareilsList();
     updateUstensilsList();
+
+    // Mettre à jour le compteur de recettes
+    updateRecipeCount(currentFilteredRecipes.length);
   }
 
-  return filteredRecipes;
+  return currentFilteredRecipes;
 }
 
 export function filterRecipesBySelections(selections) {
@@ -64,9 +79,6 @@ export function filterRecipesBySelections(selections) {
 
   // Afficher les recettes filtrées
   displayFilteredRecipes(filteredRecipes);
-
-  // Mise à jour du nombre de recettes
-  updateRecipeCount(filteredRecipes.length);
 
   return filteredRecipes;
 }
