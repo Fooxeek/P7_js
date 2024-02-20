@@ -5,41 +5,51 @@ import { updateIngredientsList } from "../template/ingredients.js";
 import { updateAppareilsList } from "../template/appareils.js";
 import { updateUstensilsList } from "../template/ustensiles.js";
 
-export let currentFilteredRecipes = [...recipes]; // Commencez avec toutes les recettes
+export let currentFilteredRecipes = [...recipes]; // Copie initiale de toutes les recettes
 
 export function filterRecipes(query) {
-  if (query.length < 3) {
-    displayFilteredRecipes(currentFilteredRecipes);
-    return currentFilteredRecipes;
-  }
+  // Filtrer les recettes en fonction de la requête
+  currentFilteredRecipes =
+    query.length < 3
+      ? [...recipes] // Si la requête est courte, afficher toutes les recettes
+      : recipes.filter((recipe) => {
+          // Sinon, filtrer les recettes en fonction de la requête
+          const title = recipe.name.toLowerCase();
+          const description = recipe.description.toLowerCase();
+          return (
+            title.includes(query.toLowerCase()) ||
+            description.includes(query.toLowerCase()) ||
+            recipe.ingredients.some((ingredient) =>
+              ingredient.ingredient.toLowerCase().includes(query.toLowerCase())
+            )
+          );
+        });
 
-  const filteredRecipes = recipes.filter((recipe) => {
-    const titleMatch = recipe.name.toLowerCase().includes(query.toLowerCase());
-    const descriptionMatch = recipe.description
-      .toLowerCase()
-      .includes(query.toLowerCase());
-    const ingredientMatch = recipe.ingredients.some((ingredient) =>
-      ingredient.ingredient.toLowerCase().includes(query.toLowerCase())
-    );
-
-    return titleMatch || descriptionMatch || ingredientMatch;
-  });
-
-  if (filteredRecipes.length === 0) {
+  // Affichage des résultats
+  if (currentFilteredRecipes.length === 0) {
+    // Si aucune recette ne correspond à la requête, afficher un message d'erreur
     const recipesCard = document.getElementById("recipes__cards");
     const noResultMessage = document.createElement("div");
     noResultMessage.textContent = `Aucune recette ne correspond à "${query}"`;
     noResultMessage.classList.add("no-result");
-    recipesCard.innerHTML = ""; // Supprimez le contenu précédent
+    recipesCard.innerHTML = "";
     recipesCard.appendChild(noResultMessage);
+
+    // Réinitialisation des filtres et du compteur de recettes
+    updateIngredientsList([]);
+    updateAppareilsList([]);
+    updateUstensilsList([]);
+    updateRecipeCount(0);
   } else {
-    displayFilteredRecipes(filteredRecipes);
+    // Si des recettes sont trouvées, les afficher et mettre à jour les filtres et le compteur
+    displayFilteredRecipes(currentFilteredRecipes);
     updateIngredientsList();
     updateAppareilsList();
     updateUstensilsList();
+    updateRecipeCount(currentFilteredRecipes.length);
   }
 
-  return filteredRecipes;
+  return currentFilteredRecipes; // Retourner les recettes filtrées
 }
 
 export function filterRecipesBySelections(selections) {
