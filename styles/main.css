@@ -192,6 +192,14 @@ body {
   margin: 0 3rem;
 }
 
+.no-result {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40vh;
+  font-size: 30px;
+}
+
 #recipes__cards article {
   border-radius: 20px;
   margin: 2em 1em;

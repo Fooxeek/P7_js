@@ -8,25 +8,46 @@ import { updateUstensilsList } from "../template/ustensiles.js";
 export let currentFilteredRecipes = [...recipes]; // Commencez avec toutes les recettes
 
 export function filterRecipes(query) {
-  currentFilteredRecipes = recipes.filter((recipe) => {
+  if (query.length < 3) return displayFilteredRecipes(currentFilteredRecipes);
+
+  let filteredRecipes = [];
+
+  for (let i = 0; i < recipes.length; i++) {
+    let recipe = recipes[i];
     let titleMatch = recipe.name.toLowerCase().includes(query.toLowerCase());
     let descriptionMatch = recipe.description
       .toLowerCase()
       .includes(query.toLowerCase());
-    let ingredientMatch = recipe.ingredients.some((ingredient) =>
-      ingredient.ingredient.toLowerCase().includes(query.toLowerCase())
-    );
+    let ingredientMatch = false;
 
-    return titleMatch || descriptionMatch || ingredientMatch;
-  });
+    for (let j = 0; j < recipe.ingredients.length; j++) {
+      let ingredient = recipe.ingredients[j];
+      if (ingredient.ingredient.toLowerCase().includes(query.toLowerCase())) {
+        ingredientMatch = true;
+        break;
+      }
+    }
 
-  // Mettez à jour l'affichage des recettes ici
-  displayFilteredRecipes(currentFilteredRecipes);
-  updateIngredientsList();
-  updateAppareilsList();
-  updateUstensilsList();
+    if (titleMatch || descriptionMatch || ingredientMatch) {
+      filteredRecipes.push(recipe);
+    }
+  }
 
-  return currentFilteredRecipes;
+  if (filteredRecipes.length === 0) {
+    const recipesCard = document.getElementById("recipes__cards");
+    const noResultMessage = document.createElement("div");
+    noResultMessage.textContent = `Aucune recette ne correspond à "${query}"`;
+    noResultMessage.classList.add("no-result");
+    recipesCard.innerHTML = ""; // Supprimez le contenu précédent
+    recipesCard.appendChild(noResultMessage);
+  } else {
+    displayFilteredRecipes(filteredRecipes);
+    updateIngredientsList();
+    updateAppareilsList();
+    updateUstensilsList();
+  }
+
+  return filteredRecipes;
 }
 
 export function filterRecipesBySelections(selections) {

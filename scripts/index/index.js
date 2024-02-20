@@ -21,7 +21,7 @@ function displayData(recipes) {
 
 export function displayFilteredRecipes(filteredRecipes) {
   const recipeSection = document.getElementById("recipes__cards");
-  recipeSection.innerHTML = ""; // Vide la section des recettes actuelles
+  recipeSection.innerHTML = "";
 
   for (let i = 0; i < filteredRecipes.length; i++) {
     const recipeCard = getRecipeCard(filteredRecipes[i]); // Utilisez votre fonction existante pour créer une carte de recette
